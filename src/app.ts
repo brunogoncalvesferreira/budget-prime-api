@@ -1,3 +1,41 @@
 import fastify from 'fastify'
+import {
+  serializerCompiler,
+  validatorCompiler,
+  ZodTypeProvider,
+  jsonSchemaTransform,
+} from 'fastify-type-provider-zod'
+import { env } from './env'
+import fastifySwagger from '@fastify/swagger'
+import scalarReferenceUi from '@scalar/fastify-api-reference'
+import { createUsersRoute } from './routes/create-users.route'
+import { createClientsRoute } from './routes/create-clients.route'
 
-export const app = fastify()
+export const app = fastify().withTypeProvider<ZodTypeProvider>()
+
+app.setValidatorCompiler(validatorCompiler)
+app.setSerializerCompiler(serializerCompiler)
+
+if (env.NODE_ENV === 'development') {
+  app.register(fastifySwagger, {
+    openapi: {
+      info: {
+        version: '1.0.0',
+        title: 'Budget Prime API',
+        description: 'API generate budgets',
+      },
+    },
+
+    transform: jsonSchemaTransform,
+  })
+
+  app.register(scalarReferenceUi, {
+    routePrefix: '/docs',
+    configuration: {
+      theme: 'default',
+    },
+  })
+}
+
+app.register(createUsersRoute)
+app.register(createClientsRoute)
