@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Users {
+  id           String  @id @default(uuid())
+  company_name String?
+  name         String
+  email        String  @unique
+  password     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clients Clients[]
+
+  @@map("users")
+}
+
+model Clients {
+  id    String @id @default(uuid())
+  name  String
+  email String @unique
+  phone String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users   Users?  @relation(fields: [usersId], references: [id])
+  usersId String?
+
+  @@map("clients")
+}
+
+enum Status {
+  DRAFT
+  SENT
+  APPROVED
+  REJECTED
+}
+
+model Budgets {
+  id          String   @id @default(uuid())
+  description String
+  price       Float
+  deadLine    DateTime
+  status      Status   @default(DRAFT)
+  pdf_url     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("budgets")
+}
