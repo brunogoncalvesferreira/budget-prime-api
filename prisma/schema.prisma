@@ -16,12 +16,13 @@ model Users {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  clients Clients[]
+  clients clients[]
+  budgets budgets[]
 
   @@map("users")
 }
 
-model Clients {
+model clients {
   id    String @id @default(uuid())
   name  String
   email String @unique
@@ -30,8 +31,9 @@ model Clients {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users   Users?  @relation(fields: [usersId], references: [id])
+  users   Users?    @relation(fields: [usersId], references: [id])
   usersId String?
+  budgets budgets[]
 
   @@map("clients")
 }
@@ -43,16 +45,23 @@ enum Status {
   REJECTED
 }
 
-model Budgets {
+model budgets {
   id          String   @id @default(uuid())
   description String
   price       Float
   deadLine    DateTime
   status      Status   @default(DRAFT)
-  pdf_url     String
+  pdf_url     String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  users   Users?  @relation(fields: [usersId], references: [id])
+  usersId String?
+
+  clients   clients? @relation(fields: [clientsId], references: [id])
+  clientsId String?
+
   @@map("budgets")
 }
+
