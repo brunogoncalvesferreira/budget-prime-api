@@ -3,3 +3,4 @@ node_modules
 GEMINI.md
 /src/generated/prisma
 uploads
+dist
