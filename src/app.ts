@@ -10,6 +10,9 @@ import fastifySwagger from '@fastify/swagger'
 import scalarReferenceUi from '@scalar/fastify-api-reference'
 import { createUsersRoute } from './routes/create-users.route'
 import { createClientsRoute } from './routes/create-clients.route'
+import { createBudgetsRoute } from './routes/create-budgets.route'
+import { getBudgetByIdRoute } from './routes/get-budget-by-id.route'
+import { downloadBudgetRoute } from './routes/download-budget.route'
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -39,3 +42,6 @@ if (env.NODE_ENV === 'development') {
 
 app.register(createUsersRoute)
 app.register(createClientsRoute)
+app.register(createBudgetsRoute)
+app.register(getBudgetByIdRoute)
+app.register(downloadBudgetRoute)

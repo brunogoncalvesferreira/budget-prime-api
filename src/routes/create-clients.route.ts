@@ -23,9 +23,9 @@ export const createClientsRoute: FastifyPluginCallbackZod = (app) => {
       },
     },
     async (request, reply) => {
-      try {
-        const { name, email, phone, usersId } = request.body
+      const { name, email, phone, usersId } = request.body
 
+      try {
         const { message } = await createClients({
           name,
           email,

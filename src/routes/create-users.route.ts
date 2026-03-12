@@ -22,9 +22,9 @@ export const createUsersRoute: FastifyPluginCallbackZod = (app) => {
       },
     },
     async (request, reply) => {
-      try {
-        const { name, company_name, email, password } = request.body
+      const { name, company_name, email, password } = request.body
 
+      try {
         const { message } = await createUsers({
           name,
           company_name,
