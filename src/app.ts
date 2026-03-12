@@ -13,8 +13,22 @@ import { createClientsRoute } from './routes/create-clients.route'
 import { createBudgetsRoute } from './routes/create-budgets.route'
 import { getBudgetByIdRoute } from './routes/get-budget-by-id.route'
 import { downloadBudgetRoute } from './routes/download-budget.route'
+import { listBudgetsRoute } from './routes/list-budgets.route'
+import { approveBudgetRoute } from './routes/approve-budget.route'
+import { rejectBudgetRoute } from './routes/reject-budget.route'
+import { sendBudgetWhatsappRoute } from './routes/send-budget-whatsapp.route'
 
-export const app = fastify().withTypeProvider<ZodTypeProvider>()
+export const app = fastify({
+  logger: {
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        translateTime: 'HH:MM:ss',
+        ignore: 'pid,hostname',
+      },
+    },
+  },
+}).withTypeProvider<ZodTypeProvider>()
 
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
@@ -45,3 +59,7 @@ app.register(createClientsRoute)
 app.register(createBudgetsRoute)
 app.register(getBudgetByIdRoute)
 app.register(downloadBudgetRoute)
+app.register(listBudgetsRoute)
+app.register(approveBudgetRoute)
+app.register(rejectBudgetRoute)
+app.register(sendBudgetWhatsappRoute)

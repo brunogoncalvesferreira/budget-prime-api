@@ -13,7 +13,7 @@ export const createUsersRoute: FastifyPluginCallbackZod = (app) => {
     {
       schema: {
         tags: ['Users'],
-        description: 'Create new user',
+        summary: 'Create new user',
         body: userSchema,
         response: {
           201: userResponseSchema,

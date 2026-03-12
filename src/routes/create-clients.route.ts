@@ -13,7 +13,7 @@ export const createClientsRoute: FastifyPluginCallbackZod = (app) => {
     {
       schema: {
         tags: ['Clients'],
-        description: 'Create new client for a user',
+        summary: 'Create new client for a user',
         body: clientSchema,
         response: {
           201: clientResponseSchema,
